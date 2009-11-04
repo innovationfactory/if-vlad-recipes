@@ -1,14 +1,5 @@
-begin
-  require 'hoe'
-rescue LoadError
-  puts 'IF-Vlad could not load hoe. Try gem install hoe'
-end
-
-begin
-  require 'vlad'
-rescue LoadError
-  puts 'IF-Vlad could not load Vlad itself. Try gem install vlad'
-end
+require 'hoe'
+require 'vlad'
 
 #require custom IF recipes
 require 'if-vlad/update'
@@ -25,5 +16,10 @@ require 'if-vlad/git_with_submodule_support'
 
 
 #require deploy script
-Kernel.load 'config/deploy.rb'
+begin
+  Kernel.load 'config/deploy.rb'
+rescue LoadError
+  puts "Couldn't find config/deploy.rb, perhaps you might consider making one?"
+end
+
 Kernel.load "config/deploy_#{ENV['to']}.rb" if ENV['to']
