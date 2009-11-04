@@ -1,0 +1,46 @@
+ _  __              _           _
+(_)/ _|            | |         | |
+ _| |_ ________   _| | __ _  __| |
+| |  _|______\ \ / / |/ _` |/ _` |
+| | |         \ V /| | (_| | (_| |
+|_|_|          \_/ |_|\__,_|\__,_|
+
+ - Innovation Factory Specific Vlad Recipes.
+
+An example deploy might look like the following:
+
+set :user, "deploy"
+set :application, "people"
+set :repository, "git@github.com:innovationfactory/people.git"
+set :revision, "origin/deploy"
+set :web_command, "sudo apache2ctl"
+
+task :acceptance do |t|
+  set :environment, t.name
+  set :migrate_args, "RAILS_ENV=#{environment}"
+  set :deploy_host, "#{application}.#{environment}.innovationfactory.net"
+  set :domain, "#{user}@#{deploy_host}"
+  set :deploy_to, "/var/www/deploy/www/#{deploy_host}"
+end
+
+namespace :vlad do
+  namespace :if do
+
+    desc "Perform a full deploy."
+    task :deploy => %w[
+      vlad:if:maintenance:off
+      vlad:if:update
+      vlad:if:symlink:shared
+      vlad:if:touch:shared_log
+      vlad:if:gems:install
+      vlad:if:migrate
+      vlad:if:update_crontab
+      vlad:if:ts:full_reboot
+      vlad:if:start
+      vlad:if:cleanup
+      vlad:if:maintenance:on
+    ]
+
+  end
+end
+
