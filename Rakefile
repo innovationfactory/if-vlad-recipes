@@ -7,8 +7,7 @@ begin
     gemspec.email = "dev@innovationfactory.eu"
     gemspec.homepage = "http://github.com/innovationfactory/if-vlad"
     gemspec.authors = ["Sam Aaron", "Sjoerd Andringa"]
-    gemspec.add_dependency 'vlad'
-    gemspec.add_dependency 'hoe'
+    gemspec.add_dependency 'vlad', '>= 2.0.0'
   end
 rescue LoadError
   puts "Oops, Jeweler isn't available. Install it with: gem install jeweler"

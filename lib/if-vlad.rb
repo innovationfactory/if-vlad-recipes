@@ -1,4 +1,3 @@
-require 'hoe'
 require 'vlad'
 
 #require custom IF recipes
