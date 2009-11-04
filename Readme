@@ -7,7 +7,10 @@
 
  - Innovation Factory Specific Vlad Recipes.
 
-An example deploy might look like the following:
+To get up and running with this, first up add the following to your project's Rakefile:
+require 'if-vlad'
+
+Then make sure that you have a config/deploy.rb file that might look like the following:
 
 set :user, "deploy"
 set :application, "people"

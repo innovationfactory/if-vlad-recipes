@@ -1,8 +1,8 @@
-module Vlad::GitWithSubmoduleSupport
+class Vlad::GitWithSubmoduleSupport
   #based entirely upon the vlad-git gem.
 
   VERSION = "1.0"
-  set source, Vlad::GitWithSubmoduleSupport.new
+  set :source, Vlad::GitWithSubmoduleSupport.new
   set :git_cmd, "git"
 
   ##
