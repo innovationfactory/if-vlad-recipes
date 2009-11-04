@@ -4,7 +4,7 @@ namespace :vlad do
     namespace :symlink do
       desc "Symlinks shared directory."
       remote_task :shared, :roles => :app do
-        run "rm -f #{current_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+        run "rm -rf #{current_path}/shared && ln -s #{shared_path} #{current_path}/shared"
       end
     end
   end

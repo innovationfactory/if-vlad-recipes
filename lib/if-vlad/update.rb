@@ -17,7 +17,7 @@ namespace :vlad do
         symlink = true
         run "rm -f #{current_path} && ln -s #{latest_release} #{current_path}"
 
-        run "echo #{now} $USER #{revision} #{File.basename release_path} >> #{deploy_to}/revisions.log"
+        run "echo #{Time.now} $USER #{revision} #{File.basename release_path} >> #{deploy_to}/revisions.log"
       rescue => e
         run "rm -f #{current_path} && ln -s #{previous_release} #{current_path}" if
           symlink
