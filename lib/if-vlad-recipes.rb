@@ -10,6 +10,7 @@ require 'if-vlad-recipes/cleanup'
 require 'if-vlad-recipes/start_stop'
 require 'if-vlad-recipes/symlink'
 require 'if-vlad-recipes/touch'
+require 'if-vlad-recipes/current_branch_file'
 require 'if-vlad-recipes/update_crontab'
 require 'if-vlad-recipes/git_with_submodule_support'
 
