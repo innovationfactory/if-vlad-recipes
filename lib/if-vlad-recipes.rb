@@ -1,7 +1,7 @@
 require 'vlad'
 
 #require all custom IF recipes
-Dir['if-vlad-recipes/*.rb'].each {|file| require file}
+Dir[File.dirname(__FILE__) + '/if-vlad-recipes/*.rb'].each {|file| require file}
 
 #require deploy script
 begin

@@ -3,7 +3,7 @@ namespace :vlad do
     namespace :local do
 
       desc "Updates your application server to the latest revision stored
-      in a folder on th".cleanup
+      in a folder on the local filesystem".cleanup
 
       remote_task :update, :roles => :app do
         symlink = false
