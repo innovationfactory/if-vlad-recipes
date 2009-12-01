@@ -7,43 +7,86 @@
 
  - Innovation Factory Specific Vlad Recipes.
 
-To get up and running with this, first up add the following to your project's Rakefile:
-require 'if-vlad'
+Quickstart
+==========
 
-Then make sure that you have a config/deploy.rb file that might look like the following:
+* To get up and running with this, first up add the following to your project's Rakefile:
 
-set :user, "deploy"
-set :application, "people"
-set :repository, "git@github.com:innovationfactory/people.git"
-set :revision, "origin/deploy"
-set :web_command, "sudo apache2ctl"
+  require 'if-vlad-recipes'
 
-task :acceptance do |t|
-  set :environment, t.name
-  set :migrate_args, "RAILS_ENV=#{environment}"
-  set :deploy_host, "#{application}.#{environment}.innovationfactory.net"
-  set :domain, "#{user}@#{deploy_host}"
-  set :deploy_to, "/var/www/deploy/www/#{deploy_host}"
-end
+* deploy with something like:
 
-namespace :vlad do
-  namespace :if do
+  rake acceptance vlad:if:deploy
 
-    desc "Perform a full deploy."
-    task :deploy => %w[
-      vlad:if:maintenance:off
-      vlad:if:update
-      vlad:if:symlink:shared
-      vlad:if:touch:shared_log
-      vlad:if:gems:install
-      vlad:if:migrate
-      vlad:if:update_crontab
-      vlad:if:ts:full_reboot
-      vlad:if:start
-      vlad:if:cleanup
-      vlad:if:maintenance:on
-    ]
+* For this to work, make sure that you have a config/deploy.rb file that might look like the following:
 
+  set :user, "deploy"
+  set :application, "people"
+  set :repository, "git@github.com:innovationfactory/people.git"
+  set :revision, "origin/deploy"
+  set :web_command, "sudo apache2ctl"
+
+  task :acceptance do |t|
+    set :environment, t.name
+    set :migrate_args, "RAILS_ENV=#{environment}"
+    set :deploy_host, "#{application}.#{environment}.innovationfactory.net"
+    set :domain, "#{user}@#{deploy_host}"
+    set :deploy_to, "/var/www/deploy/www/#{deploy_host}"
   end
-end
+
+
+Local Deployment
+================
+
+Local deployment is a little more tricky. Basically the deal is that the host you're pushing to has absolutely no access to the wider world and you only have a little scp hole to poke everything through for deployment. Heck, you have to install all the gems by hand *yourself* damn, that's painful.
+
+Luckily IF-Vlad is here to help you with this situation. You have to go through five
+
+1. Zip the badboy up
+2. Copy the zip to the remote server
+3. Unzip the compressed file
+4. Run the local deploy script from within the newly generated directory
+5. There's no need for a step three because the first four were so great!
+
+Let's look at these in a little more detail...
+
+== 1. Zipping zips in zips.
+
+* cd into the root of the project
+
+* run the zip rake task:
+  rake vlad:if:zip
+
+* Yey, that's it :-) You're file is now sitting in tmp/to_deply.tgz
+
+For those interested, the zip file contains all the source files of the project plus another zip of all the source files of the project. The first level is the context you'll use for doing the local deploy and the inner zip file is what will eventually be deployed :-)
+
+
+== 2. Copycats
+
+* use whatever method is easiest for this. This totally depends on your environment. Either scp or sftp should be fine for the task.
+
+
+== 3. Unzip and reveal!
+
+* the following command should do the trick:
+  tar -xvzf to_deploy.tgz
+
+
+== 4. Deploy baby!
+
+* cd into the newly created directory:
+  cd to_deploy
+
+* run the local deploy task:
+  rake acceptance vlad:if:local:deploy
+  (note that acceptance should be changed to whatever environment (if any) you specify in config/deploy.rb)
+
+
+== 5. Time for tea
+
+* Make yourself a deserved cup of English tea (with a splash of milk). Please don't be cruel to the English culture and drink Pickwick English Blend though...
+
+
+
 
