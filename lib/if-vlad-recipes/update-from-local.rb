@@ -1,5 +1,4 @@
-namespace :vlad do
-  namespace :if do
+namespace :vlad do                                                                                                    namespace :if do
     namespace :local do
 
       desc "Updates your application server to the latest revision stored
@@ -8,15 +7,12 @@ namespace :vlad do
       remote_task :update, :roles => :app do
         symlink = false
         begin
-          #we need to have local_source_path set
-          unless local_source_path then
-            raise "Error, local_source_path not set. Please set local_source_path
-            to point to the directory you're trying to local deploy from".cleanup
-          end
-
           run [
                "mkdir -p #{release_path}",
-               "cp -R #{local_source_path}/* #{release_path}",
+               "cp #{RAILS_ROOT}/tmp/to_deploy.tgz #{release_path}/",
+               "cd #{release_path}",
+               "tar -xvzf to_deploy.tgz",
+               "rm to_deploy.tgz",
                "chmod -R g+w #{latest_release}",
               ].join(" && ")
 
