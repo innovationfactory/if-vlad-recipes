@@ -3,7 +3,7 @@ namespace :vlad do
     namespace :gems do
       desc "Install required gems."
       remote_task :install, :roles => :app do
-        run "cd #{current_path} && sudo rake gems:install RAILS_ENV=#{environment}"
+        run "cd #{current_path} && sudo rake gems:install --no-rdoc --no-ri RAILS_ENV=#{environment}"
       end
     end
   end
