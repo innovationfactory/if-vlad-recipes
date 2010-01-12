@@ -1,4 +1,5 @@
-namespace :vlad do                                                                                                    namespace :if do
+namespace :vlad do
+  namespace :if do
     namespace :local do
 
       desc "Updates your application server to the latest revision stored
