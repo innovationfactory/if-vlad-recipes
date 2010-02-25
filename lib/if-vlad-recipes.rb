@@ -1,4 +1,6 @@
+require 'rubygems'
 require 'vlad'
+require 'rainbow'
 
 #require all custom IF recipes
 Dir[File.dirname(__FILE__) + '/if-vlad-recipes/*.rb'].each {|file| require file}
