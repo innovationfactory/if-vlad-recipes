@@ -16,7 +16,7 @@ namespace :vlad do
                   else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
                   end
 
-      run "cd #{directory}; #{rake_cmd} RAILS_ENV=#{rails_env} db:migrate #{migrate_args}"
+      run "cd #{directory}; #{rake_cmd} db:migrate #{migrate_args}"
     end
   end
 end

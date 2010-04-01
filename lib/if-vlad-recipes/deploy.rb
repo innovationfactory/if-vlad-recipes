@@ -19,17 +19,19 @@ namespace :vlad do
 
     namespace :local do
 
-      desc "Perform a full local deploy."
+      desc "Perform a local deploy."
+      #run these manually to complete the deploy:
+      #vlad:if:ts:full_reboot
+      #vlad:if:gems:install
+
       task :default_deploy => %w[
         vlad:if:maintenance:on
         vlad:if:local:update
         vlad:if:symlink:shared
         vlad:if:make_current_branch_file
         vlad:if:touch:shared_log
-        vlad:if:gems:install
         vlad:if:migrate
         vlad:if:update_crontab
-        vlad:if:ts:full_reboot
         vlad:if:start
         vlad:if:cleanup
         vlad:if:maintenance:off

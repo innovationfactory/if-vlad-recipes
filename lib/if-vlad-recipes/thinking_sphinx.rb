@@ -2,15 +2,13 @@ namespace :vlad do
   namespace :if do
     namespace :ts do
       def run_ts_task(name)
-        run "cd #{current_path} && rake ts:#{name} RAILS_ENV=#{environment}"
+        run "cd #{current_path} && #{rake_cmd} ts:#{name} RAILS_ENV=#{environment}"
       end
 
       desc "Reconfigure, reindex and restart Sphinx"
-      remote_task :full_reboot => %w[
-        ts:conf
-        ts:in
-        ts:run
-      ]
+      remote_task :full_reboot, :roles => :web do
+        [:conf, :in, :run].each{|ts_task| run_ts_task(ts_task)}
+      end
 
       desc "Generate Sphinx configuration file."
       remote_task :conf, :roles => :web do
